@@ -15,25 +15,21 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = data => {
+  addNewContact = data => {
     const newContact = {
-      id: nanoid(),
       ...data,
+      id: nanoid(),
     };
 
-    const isExist = this.state.contacts.some(
-      contact => contact.name === newContact.name
-    );
-
-    this.setState(({ contacts }) => {
-      if (isExist) {
-        alert(`${newContact.name} is already in contacts`);
-      } else {
-        return {
-          contacts: [newContact, ...contacts],
-        };
-      }
-    });
+    if (
+      this.state.contacts.filter(contact => contact.name === data.name).length
+    ) {
+      alert(`${newContact.name} is already in contacts`);
+    } else {
+      this.setState(prevState => ({
+        contacts: [newContact, ...prevState.contacts],
+      }));
+    }
   };
 
   deleteContact = contactId => {
@@ -61,7 +57,7 @@ export class App extends Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactsForm addContact={this.addContact} />
+        <ContactsForm addNewContact={this.addNewContact} />
         <h2>Contacts</h2>
         <Filter filter={filter} onChangeValue={this.onChangeValue} />
         <ContactsList

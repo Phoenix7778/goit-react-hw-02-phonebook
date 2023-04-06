@@ -14,7 +14,7 @@ export class ContactsForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    this.props.addNewContact(this.state);
     this.onReset();
   };
 
